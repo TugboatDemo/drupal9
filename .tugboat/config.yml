@@ -2,7 +2,7 @@ services:
   # What to call the service hosting the site.
   php:
     # Use PHP 7.x with Apache; this syntax pulls in the latest version of PHP 7
-    image: tugboatqa/php:7-apache
+    image: tugboatqa/php:8.0-apache
 
     # Set this as the default service. This does a few things
     #   1. Clones the git repository into the service container
@@ -48,24 +48,14 @@ services:
         # Install/update packages managed by composer, including drush.
         - composer install --optimize-autoloader
 
-        # Copy Drupal's public files directory from an external server. The
-        # public SSH key found in the Tugboat Repository configuration must be
-        # copied to the external server in order to use rsync over SSH.
-#        - rsync -av --delete user@example.com:/path/to/files/ "${DOCROOT}/sites/default/files/"
-
-        # Alternatively, another common practice is to use the
-        # stage_file_proxy Drupal module. This module lets Drupal serve
-        # files from another publicly-accessible Drupal site instead of
-        # syncing the entire files directory into the Tugboat Preview.
-        # This results in smaller previews and reduces the build time.
-#        - composer require --dev drupal/stage_file_proxy
-#        - vendor/bin/drush pm:enable --yes stage_file_proxy
-#        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "http://www.example.com"
-
         # Set file permissions such that Drupal will not complain
         - chgrp -R www-data "${DOCROOT}/sites/default/files"
         - find "${DOCROOT}/sites/default/files" -type d -exec chmod 2775 {} \;
         - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
+
+        - vendor/bin/drush site:install --yes --db-url=mysql://tugboat:tugboat@mysql/tugboat
+        - vendor/bin/drush theme:enable olivero
+        - vendor/bin/drush --yes config:set system.theme default olivero
 
       # Commands that build the site. This is where you would add things
       # like feature reverts or any other drush commands required to
