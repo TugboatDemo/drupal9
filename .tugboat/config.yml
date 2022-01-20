@@ -68,7 +68,7 @@ services:
       # from the base preview.
       build:
         - composer install --optimize-autoloader
-#        - vendor/bin/drush cache:rebuild
+        - vendor/bin/drush cache:rebuild
 #        - vendor/bin/drush config:import -y
 #        - vendor/bin/drush updatedb -y
 #        - vendor/bin/drush cache:rebuild

@@ -780,4 +780,4 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
 );
 $settings['config_sync_directory'] = 'sites/default/files/config_wSe2KIM7Qsgi7gFrR2yF_Xnvd-LOk7QfxeM-6jS5I1SIYqczqQsQtBioQWNpMg8OxWP56yoC4A/sync';
-
+$settings['hash_salt'] = getenv('TUGBOAT_TOKEN');
