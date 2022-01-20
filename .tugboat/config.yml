@@ -47,6 +47,10 @@ services:
 
         # Install/update packages managed by composer, including drush.
         - composer install --optimize-autoloader
+        # Clean out the files and reimport from disk.
+        - rm -rf "${TUGBOAT_ROOT}/files-private" "${DOCROOT}/sites/default/files"
+        - mkdir -p "${TUGBOAT_ROOT}/files-private" "${DOCROOT}/sites/default/files"
+        - tar -xvzf files.tgz
 
         # Set file permissions such that Drupal will not complain
         - chgrp -R www-data "${DOCROOT}/sites/default/files"
