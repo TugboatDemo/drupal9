@@ -58,7 +58,7 @@ services:
         - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
 
         - vendor/bin/drush sql:drop -y
-        - vendor/bin/drush sql:query --file=db-dump.sql.gz
+        - vendor/bin/drush sql:query --file=$TUGBOAT_ROOT/db-dump.sql.gz
 
       # Commands that build the site. This is where you would add things
       # like feature reverts or any other drush commands required to
